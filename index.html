@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/create" method="post">
+        <input type="text" name="name" id="name" placeholder="enter Your Name">
+        <input type="text" name="desc" id="desc" placeholder="Enter your Description">
+        <button type="submit">Send To Server</button>
+    </form>
+    <div class="stories">
+        <table id="tab">
+            <tr>
+                <TH>Name</TH>
+                <th>description</th>
+            </tr>
+        </table>
+    </div>
+</body>
+    <script>
+        const createContent = (result) => {
+            let table = document.getElementById('tab');
+            result.stories.forEach(data => {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                nameCell.textContent = data.name;
+                row.appendChild(nameCell);
+
+                const descCell = document.createElement('td');
+                descCell.textContent = data.desc;
+                row.appendChild(descCell);
+                table.appendChild(row);
+            })
+            console.log(result)
+        }
+        document.body.onload = async () =>{
+         await fetch('/stories')
+        .then(resp => resp.json())
+        .then(result => createContent(result));
+        }
+    </script>
+</html>
